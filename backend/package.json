@@ -1,0 +1,24 @@
+{
+"name": "backend",
+"version": "1.0.0",
+"private": true,
+"type": "module",
+"description": "",
+"main": "Embeddings.js",
+"scripts": {
+"start": "node Embeddings.js",
+"dev": "node Embeddings.js"
+},
+"license": "ISC",
+"dependencies": {
+"cohere-ai": "^7.19.0",
+"cors": "^2.8.5",
+"express": "^5.1.0",
+"oracledb": "^6.9.0",
+"dotenv": "^16.4.5"
+},
+"engines": {
+"node": ">=18"
+},
+"keywords": []
+}

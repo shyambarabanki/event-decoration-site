@@ -1,0 +1,36 @@
+{
+  "name": "event-decoration-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint",
+    "tailwind:build": "tailwindcss -i ./styles/globals.css -o ./styles/output.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
+    "express": "^5.1.0",
+    "framer-motion": "^12.23.22",
+    "googleapis": "^161.0.0",
+    "lucide-react": "^0.544.0",
+    "next": "15.5.3",
+    "oracledb": "^6.9.0",
+    "razorpay": "^2.9.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "twilio": "^5.10.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "15.5.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.13"
+  }
+}
