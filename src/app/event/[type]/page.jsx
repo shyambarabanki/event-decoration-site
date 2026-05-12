@@ -7,17 +7,15 @@ import Navbar from "../../../../components/Navbar";
 
 export default function EventDetails() {
   const params = useParams();
-  const type = params?.type?.toLowerCase() || ""; // normalize lowercase
+  const type = params?.type?.toLowerCase() || "";
 
   const [designs, setDesigns] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Filters
   const [age, setAge] = useState("all");
   const [gender, setGender] = useState("all");
   const [theme, setTheme] = useState("all");
 
-  // Fetch designs only if type === "birthday"
   useEffect(() => {
     if (!type || type !== "birthday") {
       setLoading(false);
@@ -27,11 +25,9 @@ export default function EventDetails() {
     const fetchDesigns = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`https://www.phoolandbaloon.com/api/designs/${type}`, {
-          cache: "no-store",
-        });
+        const res = await fetch(`/api/designs/${type}`);
         const data = await res.json();
-        setDesigns(data || []);
+        setDesigns(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
         setDesigns([]);
@@ -43,23 +39,22 @@ export default function EventDetails() {
     fetchDesigns();
   }, [type]);
 
-  // ✅ Get distinct dynamic age values
   const availableAges = useMemo(() => {
     const uniqueAges = [...new Set(designs.map((d) => d.age?.trim()).filter(Boolean))];
     return uniqueAges.sort((a, b) => a.localeCompare(b));
   }, [designs]);
 
-  // ✅ Get distinct dynamic theme values based on selected age
   const availableThemes = useMemo(() => {
     let filtered = designs;
+
     if (age !== "all") {
       filtered = filtered.filter((d) => d.age?.toLowerCase() === age.toLowerCase());
     }
+
     const uniqueThemes = [...new Set(filtered.map((d) => d.theme?.trim()).filter(Boolean))];
     return uniqueThemes.sort((a, b) => a.localeCompare(b));
   }, [designs, age]);
 
-  // ✅ Apply filters
   const filteredDesigns = useMemo(() => {
     return designs.filter((d) => {
       const matchAge = age === "all" || d.age?.toLowerCase() === age.toLowerCase();
@@ -72,7 +67,6 @@ export default function EventDetails() {
     });
   }, [designs, age, gender, theme]);
 
-  // 🟡 Coming Soon Screen for non-birthday types
   if (type !== "birthday" && type !== "anniversary") {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-pink-200 to-purple-200 text-center">
@@ -90,21 +84,18 @@ export default function EventDetails() {
     );
   }
 
-  // 🎂 Birthday Designs Page
   return (
     <div>
       <Navbar />
       <div className="pt-28 p-4 md:p-8 bg-gray-50 min-h-screen">
         <h1 className="text-3xl font-bold mb-6 capitalize">{type} Designs</h1>
 
-        {/* 🔽 Filters Section */}
         <div className="flex flex-wrap gap-2 md:gap-4 mb-6">
-          {/* 🧒 Age Filter (Dynamic) */}
           <select
             value={age}
             onChange={(e) => {
               setAge(e.target.value);
-              setTheme("all"); // reset theme when age changes
+              setTheme("all");
             }}
             className="border rounded-xl p-2 bg-white shadow-sm focus:ring-2 focus:ring-pink-400"
           >
@@ -116,7 +107,6 @@ export default function EventDetails() {
             ))}
           </select>
 
-          {/* 🚻 Gender Filter */}
           <select
             value={gender}
             onChange={(e) => setGender(e.target.value)}
@@ -127,7 +117,6 @@ export default function EventDetails() {
             <option value="female">Female</option>
           </select>
 
-          {/* 🎨 Theme Filter (Dynamic) */}
           <select
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
@@ -142,7 +131,6 @@ export default function EventDetails() {
           </select>
         </div>
 
-        {/* 💎 Designs Grid */}
         {loading ? (
           <p className="text-gray-500 animate-pulse">Loading designs...</p>
         ) : filteredDesigns.length === 0 ? (
