@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -9,15 +9,14 @@ import {
   ArrowRight,
   BadgeCheck,
   CalendarCheck,
+  ChevronLeft,
+  ChevronRight,
   CheckCircle2,
-  Clock3,
   Gift,
   MapPin,
   Search,
-  ShieldCheck,
   Sparkles,
   Star,
-  Truck,
 } from "lucide-react";
 
 const occasions = [
@@ -70,7 +69,7 @@ const packageCards = [
   {
     title: "Floral Anniversary Corner",
     href: "/event/anniversary",
-    image: "/carousel2.jpg",
+    image: "/anniversary_carousel.jpg",
     price: "Rs 3,499 onward",
     meta: "Photo-ready decor",
     rating: "4.8",
@@ -78,7 +77,7 @@ const packageCards = [
   {
     title: "Wedding Entry Styling",
     href: "/event/marriage",
-    image: "/carousel4.jpg",
+    image: "/marriage1.jpg",
     price: "Custom quote",
     meta: "Premium team",
     rating: "5.0",
@@ -86,25 +85,59 @@ const packageCards = [
   {
     title: "Corporate Celebration Kit",
     href: "/event/corporate-party",
-    image: "/carousel3.jpg",
+    image: "/corporate.jpg",
     price: "Rs 4,999 onward",
     meta: "Brand-safe setup",
     rating: "4.7",
   },
 ];
 
-const serviceHighlights = [
-  { icon: Truck, title: "Local setup", text: "Decor team reaches your venue in Lucknow and nearby areas." },
-  { icon: ShieldCheck, title: "Verified booking", text: "OTP and booking details keep every request traceable." },
-  { icon: Clock3, title: "Fast planning", text: "Choose occasion, slot, pincode, and confirm in minutes." },
-];
-
-const quickFilters = [
-  { label: "Birthday", href: "/event/birthday" },
-  { label: "Balloon arch", href: "/event/any-other" },
-  { label: "Flower decor", href: "/event/anniversary" },
-  { label: "Wedding stage", href: "/event/marriage" },
-  { label: "Office party", href: "/event/corporate-party" },
+const heroSlides = [
+  {
+    title: "Joyful birthday balloon decor",
+    subtitle: "Colorful balloon walls, theme backdrops, table styling, and photo-ready corners.",
+    image: "/carousel1.jpg",
+    href: "/event/birthday",
+    badge: "Birthday decor",
+    badgeClass: "bg-pink-50/95 text-pink-700 ring-pink-200",
+    dotClass: "bg-pink-600",
+  },
+  {
+    title: "Elegant anniversary floral setup",
+    subtitle: "Soft flowers, heart balloons, warm backdrops, and a polished romantic finish.",
+    image: "/anniversary_carousel.jpg",
+    href: "/event/anniversary",
+    badge: "Anniversary",
+    badgeClass: "bg-fuchsia-50/95 text-fuchsia-700 ring-fuchsia-200",
+    dotClass: "bg-fuchsia-600",
+  },
+  {
+    title: "Beautiful baby shower decoration",
+    subtitle: "Gentle colors, balloon styling, themed backdrops, and picture-perfect details.",
+    image: "/Baby_Shower_Carousel.jpg",
+    href: "/event/any-other",
+    badge: "Baby shower",
+    badgeClass: "bg-violet-50/95 text-violet-700 ring-violet-200",
+    dotClass: "bg-violet-600",
+  },
+  {
+    title: "Fresh phool decor styling",
+    subtitle: "Real flower-inspired styling, graceful backdrops, and elegant event detailing.",
+    image: "/Phool_carousal.jpg",
+    href: "/event/anniversary",
+    badge: "Phool decor",
+    badgeClass: "bg-yellow-50/95 text-yellow-700 ring-yellow-200",
+    dotClass: "bg-yellow-400",
+  },
+  {
+    title: "Romantic surprise proposal decor",
+    subtitle: "Premium flowers, soft lighting, heart details, and a memorable proposal setup.",
+    image: "/Surprise_Proposa_Romantic_Setup_Carousel.jpg",
+    href: "/event/anniversary",
+    badge: "Proposal setup",
+    badgeClass: "bg-rose-50/95 text-rose-700 ring-rose-200",
+    dotClass: "bg-rose-600",
+  },
 ];
 
 function buildEventHref(slug) {
@@ -189,7 +222,8 @@ function PackageCard({ item }) {
 export default function HomeComponent() {
   const searchParams = useSearchParams();
   const [showMessage, setShowMessage] = useState(false);
-  const primaryOccasions = useMemo(() => occasions.slice(0, 4), []);
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+  const heroSlide = heroSlides[currentHeroSlide];
 
   useEffect(() => {
     if (searchParams.get("status") === "success") {
@@ -200,6 +234,22 @@ export default function HomeComponent() {
 
     return undefined;
   }, [searchParams]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentHeroSlide((slide) => (slide + 1) % heroSlides.length);
+    }, 4500);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const showPreviousSlide = () => {
+    setCurrentHeroSlide((slide) => (slide - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const showNextSlide = () => {
+    setCurrentHeroSlide((slide) => (slide + 1) % heroSlides.length);
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#fffaf3] pb-20 text-gray-950 sm:pb-0">
@@ -217,154 +267,162 @@ export default function HomeComponent() {
         ) : null}
       </AnimatePresence>
 
-      <section className="relative overflow-hidden bg-[#fff2e0] text-gray-950">
-        <Image
-          src="/carousel3.jpg"
-          alt="Colorful balloon and event decoration"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,250,243,0.98),rgba(255,242,224,0.9),rgba(236,253,245,0.82))]" />
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#fff7ed_0%,#fff7fb_45%,#ecfeff_100%)] text-gray-950">
+        <div className="relative mx-auto grid max-w-[96rem] gap-4 px-4 py-4 sm:px-6 md:py-6 lg:px-8 xl:grid-cols-[8rem_minmax(0,1fr)_8rem] xl:items-stretch">
+          <div className="pointer-events-none hidden xl:block">
+            <div className="relative h-full min-h-[300px] overflow-hidden rounded-lg border border-yellow-100 bg-white shadow-2xl shadow-yellow-100">
+              <Image
+                src="/Phool.jpg"
+                alt=""
+                fill
+                sizes="128px"
+                aria-hidden="true"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-yellow-950/80 via-yellow-700/15 to-white/5" />
+              <div className="absolute inset-x-0 bottom-5 text-center">
+                <span className="block text-5xl font-black leading-none text-yellow-300 drop-shadow-lg">
+                  P
+                </span>
+                <span className="mt-1 block text-xs font-extrabold uppercase tracking-wide text-yellow-100 drop-shadow">
+                  Phool
+                </span>
+              </div>
+            </div>
+          </div>
 
-        <div className="relative mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6 md:py-7 lg:grid-cols-[1.08fr_0.92fr] lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="flex min-h-[430px] min-w-0 flex-col justify-between rounded-lg border border-pink-100 bg-white/85 p-4 shadow-xl shadow-pink-100/50 backdrop-blur-sm sm:p-6 lg:min-h-[520px]"
+            className="overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100/60"
           >
-            <div className="min-w-0">
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 rounded-md bg-[#ff4f9a] px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide text-white">
-                  <BadgeCheck size={14} aria-hidden="true" />
-                  Decoration marketplace
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-md border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-800">
-                  <MapPin size={14} aria-hidden="true" />
-                  Lucknow first
+            <div className="relative aspect-[4/3] overflow-hidden bg-gray-950 sm:aspect-[16/8] lg:aspect-[16/6]">
+              {heroSlides.map((slide, index) => (
+                <div
+                  key={slide.image}
+                  className={`absolute inset-0 transition-opacity duration-700 ${
+                    index === currentHeroSlide ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <Image
+                    src={slide.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1280px) 100vw, 1280px"
+                    aria-hidden="true"
+                    className="scale-110 object-cover opacity-50 blur-xl"
+                  />
+                  <div className="absolute inset-0 bg-black/15" />
+                  <div className="absolute inset-1 sm:inset-3">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      priority={index === 0}
+                      sizes="(max-width: 1280px) 100vw, 1280px"
+                      className="object-contain drop-shadow-2xl"
+                    />
+                  </div>
+                </div>
+              ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-black/45 to-transparent" />
+
+              <div className="absolute left-3 top-3 sm:left-5 sm:top-5">
+                <span
+                  className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide ring-1 shadow-sm ${heroSlide.badgeClass}`}
+                >
+                  <BadgeCheck size={13} aria-hidden="true" />
+                  {heroSlide.badge}
                 </span>
               </div>
 
-              <h1 className="max-w-2xl text-3xl font-black leading-tight tracking-tight text-gray-950 sm:text-5xl">
-                Colorful decorations for every celebration.
-              </h1>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-gray-700 sm:text-base">
-                Browse birthday, anniversary, wedding, and party decor with bright
-                themes, real images, service checks, and quick booking.
-              </p>
+              <div className="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 justify-between gap-3 sm:left-5 sm:right-5">
+                <button
+                  type="button"
+                  onClick={showPreviousSlide}
+                  aria-label="Previous decoration slide"
+                  className="flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white"
+                >
+                  <ChevronLeft size={19} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={showNextSlide}
+                  aria-label="Next decoration slide"
+                  className="flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white"
+                >
+                  <ChevronRight size={19} aria-hidden="true" />
+                </button>
+              </div>
 
-              <div className="mt-6 min-w-0 overflow-hidden rounded-lg bg-white p-2 shadow-2xl shadow-pink-100">
-                <div className="flex min-w-0 items-center gap-2 rounded-md border border-pink-100 bg-pink-50/60 px-3 py-2">
-                  <Search size={20} className="shrink-0 text-pink-500" aria-hidden="true" />
-                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-gray-600">
-                    Search decor styles...
-                  </span>
-                  <Link
-                    href="/event/birthday"
-                    className="shrink-0 rounded-md bg-[#ff4f9a] px-4 py-2 text-xs font-extrabold text-white transition hover:bg-pink-600"
-                  >
-                    Browse
-                  </Link>
+              <div className="absolute inset-x-3 bottom-3 sm:inset-x-5 sm:bottom-5">
+                <div className="flex min-w-0 flex-col gap-3 rounded-lg bg-black/40 p-3 text-white shadow-lg backdrop-blur-md sm:max-w-2xl sm:p-4">
+                  <h1 className="truncate text-lg font-black leading-tight sm:text-xl lg:text-2xl">
+                    {heroSlide.title}
+                  </h1>
+                  <p className="hidden max-w-xl text-sm leading-5 text-white/90 sm:block">
+                    {heroSlide.subtitle}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={heroSlide.href}
+                      className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#ff4f9a] px-4 text-xs font-extrabold text-white shadow-lg shadow-black/20 transition hover:bg-pink-600 sm:text-sm"
+                    >
+                      Explore designs
+                      <ArrowRight size={15} aria-hidden="true" />
+                    </Link>
+                    <span className="inline-flex h-9 items-center gap-2 rounded-md border border-cyan-100 bg-white/95 px-3 text-xs font-extrabold text-gray-900 shadow-sm">
+                      <MapPin size={13} className="text-teal-700" aria-hidden="true" />
+                      <span>
+                        Live in <span className="text-pink-600">Noida</span> &{" "}
+                        <span className="text-teal-700">Lucknow</span>
+                      </span>
+                    </span>
+                  </div>
                 </div>
 
-                <div className="mt-2 flex min-w-0 max-w-full gap-2 overflow-x-auto pb-1">
-                  {quickFilters.map((filter) => (
-                    <Link
-                      key={filter.label}
-                      href={filter.href}
-                      className="shrink-0 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800 transition hover:border-pink-300 hover:bg-pink-50 hover:text-pink-700"
-                    >
-                      {filter.label}
-                    </Link>
+                <div className="mt-3 flex justify-center gap-2">
+                  {heroSlides.map((slide, index) => (
+                    <button
+                      key={slide.title}
+                      type="button"
+                      onClick={() => setCurrentHeroSlide(index)}
+                      aria-label={`Show ${slide.badge}`}
+                      className={`h-2.5 rounded-full shadow-sm transition-all ${
+                        index === currentHeroSlide
+                          ? `w-8 ${slide.dotClass}`
+                          : "w-2.5 bg-white/70 hover:bg-white"
+                      }`}
+                    />
                   ))}
                 </div>
               </div>
             </div>
-
-            <div className="mt-6 grid grid-cols-3 gap-3">
-              {[
-                ["5+", "Occasions"],
-                ["10 min", "Quick request"],
-                ["OTP", "Secure flow"],
-              ].map(([value, label]) => (
-                <div key={label} className="rounded-lg border border-teal-100 bg-teal-50 p-3">
-                  <span className="block text-lg font-black text-teal-800 sm:text-2xl">{value}</span>
-                  <span className="mt-1 block text-[11px] font-semibold uppercase tracking-wide text-teal-700/70">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.08 }}
-            className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-1"
-          >
-            <Link
-              href="/event/marriage"
-              className="group relative min-h-[260px] overflow-hidden rounded-lg bg-pink-100 shadow-2xl shadow-pink-100 sm:min-h-[320px] lg:min-h-[360px]"
-            >
+          <div className="pointer-events-none hidden xl:block">
+            <div className="relative h-full min-h-[300px] overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100">
               <Image
-                src="/carousel4.jpg"
-                alt="Premium wedding decoration"
+                src="/Balloon.jpg"
+                alt=""
                 fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 44vw"
-                className="object-cover transition duration-500 group-hover:scale-105"
+                sizes="128px"
+                aria-hidden="true"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-950/70 via-pink-900/15 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <span className="mb-2 inline-flex rounded-md bg-amber-300 px-2.5 py-1 text-xs font-extrabold text-gray-950">
-                  Featured setup
+              <div className="absolute inset-0 bg-gradient-to-t from-pink-950/80 via-pink-700/15 to-white/5" />
+              <div className="absolute inset-x-0 bottom-5 text-center">
+                <span className="block text-5xl font-black leading-none text-pink-300 drop-shadow-lg">
+                  B
                 </span>
-                <h2 className="text-2xl font-black text-white">Wedding ready decor</h2>
-                <p className="mt-1 text-sm text-white/90">Stage, entry, floral and photo zones.</p>
+                <span className="mt-1 block text-xs font-extrabold uppercase tracking-wide text-pink-100 drop-shadow">
+                  Balloon
+                </span>
               </div>
-            </Link>
-
-            <div className="grid grid-cols-2 gap-4">
-              {primaryOccasions.slice(0, 2).map((item) => (
-                <Link
-                  href={buildEventHref(item.slug)}
-                  key={item.slug}
-                  className="group relative min-h-[150px] overflow-hidden rounded-lg bg-amber-100"
-                >
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 22vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-950/65 via-transparent to-transparent" />
-                  <span className="absolute bottom-3 left-3 right-3 text-sm font-black text-white">
-                    {item.title}
-                  </span>
-                </Link>
-              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="border-y border-gray-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-3 px-4 py-4 sm:grid-cols-3 sm:px-6 lg:px-8">
-          {serviceHighlights.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="flex items-start gap-3 py-2">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-pink-50 text-pink-600">
-                <Icon size={20} aria-hidden="true" />
-              </span>
-              <span>
-                <span className="block text-sm font-extrabold text-gray-950">{title}</span>
-                <span className="mt-1 block text-sm leading-5 text-gray-600">{text}</span>
-              </span>
-            </div>
-          ))}
+          </div>
         </div>
       </section>
 
