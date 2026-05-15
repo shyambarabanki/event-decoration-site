@@ -268,9 +268,9 @@ export default function HomeComponent() {
       </AnimatePresence>
 
       <section className="relative overflow-hidden bg-[linear-gradient(135deg,#fff7ed_0%,#fff7fb_45%,#ecfeff_100%)] text-gray-950">
-        <div className="relative mx-auto grid max-w-[96rem] gap-4 px-4 py-4 sm:px-6 md:py-6 lg:px-8 xl:grid-cols-[8rem_minmax(0,1fr)_8rem] xl:items-stretch">
-          <div className="pointer-events-none hidden xl:block">
-            <div className="relative h-full min-h-[300px] overflow-hidden rounded-lg border border-yellow-100 bg-white shadow-2xl shadow-yellow-100">
+        <div className="relative mx-auto grid max-w-[96rem] grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] items-stretch gap-2 px-3 py-3 sm:grid-cols-[4.5rem_minmax(0,1fr)_4.5rem] sm:gap-3 sm:px-6 md:py-5 lg:grid-cols-[6rem_minmax(0,1fr)_6rem] lg:px-8 xl:grid-cols-[7rem_minmax(0,1fr)_7rem]">
+          <div className="pointer-events-none">
+            <div className="relative h-full min-h-[138px] overflow-hidden rounded-lg border border-yellow-100 bg-white shadow-xl shadow-yellow-100 sm:min-h-[190px] lg:min-h-[245px]">
               <Image
                 src="/Phool.jpg"
                 alt=""
@@ -280,11 +280,11 @@ export default function HomeComponent() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-yellow-950/80 via-yellow-700/15 to-white/5" />
-              <div className="absolute inset-x-0 bottom-5 text-center">
-                <span className="block text-5xl font-black leading-none text-yellow-300 drop-shadow-lg">
+              <div className="absolute inset-x-0 bottom-2 text-center sm:bottom-3 xl:bottom-5">
+                <span className="block text-2xl font-black leading-none text-yellow-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
                   P
                 </span>
-                <span className="mt-1 block text-xs font-extrabold uppercase tracking-wide text-yellow-100 drop-shadow">
+                <span className="mt-0.5 block text-[8px] font-extrabold uppercase tracking-wide text-yellow-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
                   Phool
                 </span>
               </div>
@@ -295,9 +295,9 @@ export default function HomeComponent() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100/60"
+            className="min-w-0 overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100/60"
           >
-            <div className="relative aspect-[4/3] overflow-hidden bg-gray-950 sm:aspect-[16/8] lg:aspect-[16/6]">
+            <div className="relative aspect-[16/9] overflow-hidden bg-gray-950 sm:aspect-[16/7] lg:aspect-[16/6]">
               {heroSlides.map((slide, index) => (
                 <div
                   key={slide.image}
@@ -329,11 +329,11 @@ export default function HomeComponent() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-black/45 to-transparent" />
 
-              <div className="absolute left-3 top-3 sm:left-5 sm:top-5">
+              <div className="absolute left-2 top-2 sm:left-5 sm:top-5">
                 <span
-                  className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wide ring-1 shadow-sm ${heroSlide.badgeClass}`}
+                  className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide ring-1 shadow-sm sm:px-3 sm:py-1.5 sm:text-[11px] ${heroSlide.badgeClass}`}
                 >
-                  <BadgeCheck size={13} aria-hidden="true" />
+                  <BadgeCheck size={12} aria-hidden="true" />
                   {heroSlide.badge}
                 </span>
               </div>
@@ -343,39 +343,39 @@ export default function HomeComponent() {
                   type="button"
                   onClick={showPreviousSlide}
                   aria-label="Previous decoration slide"
-                  className="flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
                 >
-                  <ChevronLeft size={19} aria-hidden="true" />
+                  <ChevronLeft size={17} aria-hidden="true" />
                 </button>
                 <button
                   type="button"
                   onClick={showNextSlide}
                   aria-label="Next decoration slide"
-                  className="flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
                 >
-                  <ChevronRight size={19} aria-hidden="true" />
+                  <ChevronRight size={17} aria-hidden="true" />
                 </button>
               </div>
 
-              <div className="absolute inset-x-3 bottom-3 sm:inset-x-5 sm:bottom-5">
-                <div className="flex min-w-0 flex-col gap-3 rounded-lg bg-black/40 p-3 text-white shadow-lg backdrop-blur-md sm:max-w-2xl sm:p-4">
-                  <h1 className="truncate text-lg font-black leading-tight sm:text-xl lg:text-2xl">
+              <div className="absolute bottom-1.5 left-1.5 w-fit max-w-[10.75rem] sm:bottom-4 sm:left-4 sm:max-w-xs lg:max-w-sm">
+                <div className="flex w-fit max-w-full min-w-0 flex-col gap-1 rounded-md bg-black/35 p-1.5 text-white shadow-lg backdrop-blur-md sm:gap-1.5 sm:p-2.5">
+                  <h1 className="truncate text-xs font-black leading-tight sm:text-sm lg:text-lg">
                     {heroSlide.title}
                   </h1>
-                  <p className="hidden max-w-xl text-sm leading-5 text-white/90 sm:block">
+                  <p className="hidden max-w-xs text-xs leading-5 text-white/90 lg:block">
                     {heroSlide.subtitle}
                   </p>
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <Link
                       href={heroSlide.href}
-                      className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#ff4f9a] px-4 text-xs font-extrabold text-white shadow-lg shadow-black/20 transition hover:bg-pink-600 sm:text-sm"
+                      className="inline-flex h-7 items-center justify-center gap-1 rounded-md bg-[#ff4f9a] px-2.5 text-[10px] font-extrabold text-white shadow-lg shadow-black/20 transition hover:bg-pink-600 sm:text-[11px]"
                     >
                       Explore designs
-                      <ArrowRight size={15} aria-hidden="true" />
+                      <ArrowRight size={12} aria-hidden="true" />
                     </Link>
-                    <span className="inline-flex h-9 items-center gap-2 rounded-md border border-cyan-100 bg-white/95 px-3 text-xs font-extrabold text-gray-900 shadow-sm">
-                      <MapPin size={13} className="text-teal-700" aria-hidden="true" />
-                      <span>
+                    <span className="inline-flex h-7 items-center gap-1 rounded-md border border-cyan-100 bg-white/95 px-2 text-[10px] font-extrabold text-gray-900 shadow-sm sm:text-[11px]">
+                      <MapPin size={11} className="text-teal-700" aria-hidden="true" />
+                      <span className="whitespace-nowrap">
                         Live in <span className="text-pink-600">Noida</span> &{" "}
                         <span className="text-teal-700">Lucknow</span>
                       </span>
@@ -383,17 +383,17 @@ export default function HomeComponent() {
                   </div>
                 </div>
 
-                <div className="mt-3 flex justify-center gap-2">
+                <div className="mt-2 flex justify-center gap-1.5 sm:mt-3 sm:gap-2">
                   {heroSlides.map((slide, index) => (
                     <button
                       key={slide.title}
                       type="button"
                       onClick={() => setCurrentHeroSlide(index)}
                       aria-label={`Show ${slide.badge}`}
-                      className={`h-2.5 rounded-full shadow-sm transition-all ${
+                      className={`h-2 rounded-full shadow-sm transition-all sm:h-2.5 ${
                         index === currentHeroSlide
-                          ? `w-8 ${slide.dotClass}`
-                          : "w-2.5 bg-white/70 hover:bg-white"
+                          ? `w-6 sm:w-8 ${slide.dotClass}`
+                          : "w-2 bg-white/70 hover:bg-white sm:w-2.5"
                       }`}
                     />
                   ))}
@@ -402,8 +402,8 @@ export default function HomeComponent() {
             </div>
           </motion.div>
 
-          <div className="pointer-events-none hidden xl:block">
-            <div className="relative h-full min-h-[300px] overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100">
+          <div className="pointer-events-none">
+            <div className="relative h-full min-h-[138px] overflow-hidden rounded-lg border border-pink-100 bg-white shadow-xl shadow-pink-100 sm:min-h-[190px] lg:min-h-[245px]">
               <Image
                 src="/Balloon.jpg"
                 alt=""
@@ -413,11 +413,11 @@ export default function HomeComponent() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-pink-950/80 via-pink-700/15 to-white/5" />
-              <div className="absolute inset-x-0 bottom-5 text-center">
-                <span className="block text-5xl font-black leading-none text-pink-300 drop-shadow-lg">
+              <div className="absolute inset-x-0 bottom-2 text-center sm:bottom-3 xl:bottom-5">
+                <span className="block text-2xl font-black leading-none text-pink-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
                   B
                 </span>
-                <span className="mt-1 block text-xs font-extrabold uppercase tracking-wide text-pink-100 drop-shadow">
+                <span className="mt-0.5 block text-[8px] font-extrabold uppercase tracking-wide text-pink-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
                   Balloon
                 </span>
               </div>
