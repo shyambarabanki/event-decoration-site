@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin } from "lucide-react";
+import { MapPin, PackageCheck } from "lucide-react";
 
 export default function Navbar() {
   const [location, setLocation] = useState("Lucknow");
@@ -66,6 +66,14 @@ export default function Navbar() {
 >
   Enquiry
 </Link>
+
+          <Link
+            href="/my-orders"
+            className="flex items-center gap-1 text-[12px] md:text-sm font-medium text-gray-700 hover:text-teal-600 transition-all"
+          >
+            <PackageCheck size={13} aria-hidden="true" />
+            Orders
+          </Link>
 
           <button className="flex items-center px-3 py-0.5 rounded-full bg-gradient-to-r from-teal-500 to-green-500 text-white hover:opacity-90 transition text-[11px] md:text-xs font-medium shadow-sm">
             <MapPin size={12} className="mr-1" /> {location}

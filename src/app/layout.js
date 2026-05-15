@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar";
 import SecondaryNavbar from "../../components/SecondaryNavbar";
 import Footer from "../../components/Footer";
 import Head from "next/head";
+import ErrorReporter from "./components/ErrorReporter";
 
 export const metadata = {
   title: "Phool & Balloon - Event Decoration",
@@ -30,6 +31,8 @@ export default function RootLayout({ children }) {
       </Head>
 
       <body className="bg-gray-50 overflow-x-hidden scroll-smooth antialiased">
+        <ErrorReporter />
+
         {/* ✅ Global Navbar (fixed at top) */}
         <Navbar />
 

@@ -1,4 +1,6 @@
 // src/app/api/verify-otp/route.js
+import { logError } from "../../../lib/logger";
+
 export async function POST(req) {
   try {
     const { verificationId, code } = await req.json();
@@ -34,6 +36,7 @@ export async function POST(req) {
     }
   } catch (err) {
     console.error("Verify OTP error:", err);
+    await logError("api/verify-otp", err).catch(console.error);
     return new Response(JSON.stringify({ success: false, error: err.message }), {
       status: 500,
     });

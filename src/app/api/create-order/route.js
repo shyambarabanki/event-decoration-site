@@ -1,4 +1,5 @@
 import Razorpay from "razorpay";
+import { logError } from "../../../lib/logger";
 
 export async function POST(req) {
   try {
@@ -25,6 +26,7 @@ export async function POST(req) {
     return new Response(JSON.stringify({ success: true, order }), { status: 200 });
   } catch (err) {
     console.error(err);
+    await logError("api/create-order", err).catch(console.error);
     return new Response(JSON.stringify({ success: false, error: "Order creation failed" }), { status: 500 });
   }
 }

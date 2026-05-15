@@ -1,3 +1,5 @@
+import { logError } from "../../../lib/logger";
+
 export async function GET() {
   try {
     const baseUrl = "https://cpaas.messagecentral.com";
@@ -24,6 +26,7 @@ export async function GET() {
     );
   } catch (error) {
     console.error("Error fetching token:", error);
+    await logError("api/get-token", error).catch(console.error);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { "Content-Type": "application/json" } }

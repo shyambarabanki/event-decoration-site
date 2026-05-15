@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import path from "path";
 import fs from "fs";
+import { logError } from "../../../lib/logger";
 
 // Load service account JSON
 const keyPath = path.resolve(
@@ -56,6 +57,7 @@ export async function POST(req) {
     );
   } catch (err) {
     console.error("Google Sheets API Error:", err);
+    await logError("api/enquiry", err).catch(console.error);
     return new Response(
       JSON.stringify({ success: false, error: "Failed to save inquiry" }),
       { status: 500 }

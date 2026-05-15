@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { motion } from "framer-motion";
+import { reportClientError } from "../components/ErrorReporter";
 
 export default function EnquiryPage() {
   const [form, setForm] = useState({
@@ -41,6 +42,7 @@ export default function EnquiryPage() {
       }
     } catch (err) {
       console.error(err);
+      reportClientError("enquiry/submit", err);
       alert("Failed to submit enquiry");
     } finally {
       setLoading(false);

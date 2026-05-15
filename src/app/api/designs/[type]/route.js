@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import * as XLSX from "xlsx";
 import { NextResponse } from "next/server";
+import { logError } from "../../../../lib/logger";
 
 function normalize(value) {
   return String(value ?? "").trim().toLowerCase();
@@ -32,23 +33,25 @@ export async function GET(_req, { params }) {
     const sheet = workbook.Sheets[sheetName];
     const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-    const designs = rows
-      .map((row, index) => ({
-        id: row.id || row.ID || String(index + 1),
-        name: row.name || row.Name || "",
-        image: row.image || row.Image || "",
-        price: row.price || row.Price || "",
-        description: row.description || row.Description || "",
-        age: row.age || row.Age || "",
-        gender: row.gender || row.Gender || "all",
-        theme: row.theme || row.Theme || "",
-        type: row.type || row.Type || "",
-      }))
-      .filter((d) => normalize(d.type) === normalizedType);
+   const designs = rows
+  .map((row, index) => ({
+    id: row.id || row.ID || String(index + 1),
+    name: row.name || row.Name || "",
+    image: row.image || row.Image || "",
+    price: row.price || row.Price || "",
+    description: row.description || row.Description || "",
+    age: row.age || row.Age || "",
+    gender: row.gender || row.Gender || "all",
+    category: row.category || row.Category || "",
+    theme: row.theme || row.Theme || "",
+    type: row.type || row.Type || "",
+  }))
+  .filter((d) => normalize(d.type) === normalizedType);
 
     return NextResponse.json(designs);
   } catch (error) {
     console.error("Excel read error:", error);
+    await logError("api/designs", error, { type }).catch(console.error);
     return NextResponse.json(
       { error: "Failed to read Excel file" },
       { status: 500 }
