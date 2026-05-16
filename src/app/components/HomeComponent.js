@@ -267,10 +267,10 @@ export default function HomeComponent() {
         ) : null}
       </AnimatePresence>
 
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#fff7ed_0%,#fff7fb_45%,#ecfeff_100%)] text-gray-950">
-        <div className="relative mx-auto grid max-w-[96rem] grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] items-stretch gap-2 px-3 py-3 sm:grid-cols-[4.5rem_minmax(0,1fr)_4.5rem] sm:gap-3 sm:px-6 md:py-5 lg:grid-cols-[6rem_minmax(0,1fr)_6rem] lg:px-8 xl:grid-cols-[7rem_minmax(0,1fr)_7rem]">
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#fff7ed_0%,#fff7fb_45%,#ecfeff_100%)] pt-3 text-gray-950 sm:pt-0">
+        <div className="relative mx-auto grid max-w-[96rem] grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch gap-1.5 px-2 py-2 sm:grid-cols-[4.5rem_minmax(0,1fr)_4.5rem] sm:gap-3 sm:px-6 sm:py-3 md:py-5 lg:grid-cols-[6rem_minmax(0,1fr)_6rem] lg:px-8 xl:grid-cols-[7rem_minmax(0,1fr)_7rem]">
           <div className="pointer-events-none">
-            <div className="relative h-full min-h-[138px] overflow-hidden rounded-lg border border-yellow-100 bg-white shadow-xl shadow-yellow-100 sm:min-h-[190px] lg:min-h-[245px]">
+            <div className="relative h-full min-h-[120px] overflow-hidden rounded-lg border border-yellow-100 bg-white shadow-xl shadow-yellow-100 sm:min-h-[190px] lg:min-h-[245px]">
               <Image
                 src="/Phool.jpg"
                 alt=""
@@ -281,10 +281,10 @@ export default function HomeComponent() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-yellow-950/80 via-yellow-700/15 to-white/5" />
               <div className="absolute inset-x-0 bottom-2 text-center sm:bottom-3 xl:bottom-5">
-                <span className="block text-2xl font-black leading-none text-yellow-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
+                <span className="block text-xl font-black leading-none text-yellow-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
                   P
                 </span>
-                <span className="mt-0.5 block text-[8px] font-extrabold uppercase tracking-wide text-yellow-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
+                <span className="mt-0.5 block text-[7px] font-extrabold uppercase tracking-wide text-yellow-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
                   Phool
                 </span>
               </div>
@@ -297,7 +297,7 @@ export default function HomeComponent() {
             transition={{ duration: 0.45 }}
             className="min-w-0 overflow-hidden rounded-lg border border-pink-100 bg-white shadow-2xl shadow-pink-100/60"
           >
-            <div className="relative aspect-[16/9] overflow-hidden bg-gray-950 sm:aspect-[16/7] lg:aspect-[16/6]">
+            <div className="relative aspect-[16/8.5] overflow-hidden bg-gray-950 sm:aspect-[16/7] lg:aspect-[16/6]">
               {heroSlides.map((slide, index) => (
                 <div
                   key={slide.image}
@@ -329,11 +329,11 @@ export default function HomeComponent() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-black/45 to-transparent" />
 
-              <div className="absolute left-2 top-2 sm:left-5 sm:top-5">
+              <div className="absolute left-1.5 top-1.5 sm:left-5 sm:top-5">
                 <span
-                  className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide ring-1 shadow-sm sm:px-3 sm:py-1.5 sm:text-[11px] ${heroSlide.badgeClass}`}
+                  className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide ring-1 shadow-sm sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-[11px] ${heroSlide.badgeClass}`}
                 >
-                  <BadgeCheck size={12} aria-hidden="true" />
+                  <BadgeCheck size={10} aria-hidden="true" />
                   {heroSlide.badge}
                 </span>
               </div>
@@ -343,23 +343,23 @@ export default function HomeComponent() {
                   type="button"
                   onClick={showPreviousSlide}
                   aria-label="Previous decoration slide"
-                  className="flex h-8 w-8 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
+                  className="flex h-7 w-7 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
                 >
-                  <ChevronLeft size={17} aria-hidden="true" />
+                  <ChevronLeft size={15} aria-hidden="true" />
                 </button>
                 <button
                   type="button"
                   onClick={showNextSlide}
                   aria-label="Next decoration slide"
-                  className="flex h-8 w-8 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
+                  className="flex h-7 w-7 items-center justify-center rounded-md bg-white/95 text-gray-950 shadow-sm transition hover:bg-white sm:h-10 sm:w-10"
                 >
-                  <ChevronRight size={17} aria-hidden="true" />
+                  <ChevronRight size={15} aria-hidden="true" />
                 </button>
               </div>
 
-              <div className="absolute bottom-1.5 left-1.5 w-fit max-w-[10.75rem] sm:bottom-4 sm:left-4 sm:max-w-xs lg:max-w-sm">
-                <div className="flex w-fit max-w-full min-w-0 flex-col gap-1 rounded-md bg-black/35 p-1.5 text-white shadow-lg backdrop-blur-md sm:gap-1.5 sm:p-2.5">
-                  <h1 className="truncate text-xs font-black leading-tight sm:text-sm lg:text-lg">
+              <div className="absolute bottom-1 left-1 w-fit max-w-[8.5rem] sm:bottom-4 sm:left-4 sm:max-w-xs lg:max-w-sm">
+                <div className="flex w-fit max-w-full min-w-0 flex-col gap-1 rounded-md bg-black/30 p-1 text-white shadow-lg backdrop-blur-sm sm:gap-1.5 sm:p-2.5">
+                  <h1 className="truncate text-[10px] font-black leading-tight sm:text-sm lg:text-lg">
                     {heroSlide.title}
                   </h1>
                   <p className="hidden max-w-xs text-xs leading-5 text-white/90 lg:block">
@@ -368,12 +368,12 @@ export default function HomeComponent() {
                   <div className="flex flex-wrap items-center gap-1.5">
                     <Link
                       href={heroSlide.href}
-                      className="inline-flex h-7 items-center justify-center gap-1 rounded-md bg-[#ff4f9a] px-2.5 text-[10px] font-extrabold text-white shadow-lg shadow-black/20 transition hover:bg-pink-600 sm:text-[11px]"
+                      className="inline-flex h-6 items-center justify-center gap-1 rounded-md bg-[#ff4f9a] px-2 text-[9px] font-extrabold text-white shadow-lg shadow-black/20 transition hover:bg-pink-600 sm:h-7 sm:px-2.5 sm:text-[11px]"
                     >
-                      Explore designs
-                      <ArrowRight size={12} aria-hidden="true" />
+                      Explore
+                      <ArrowRight size={10} aria-hidden="true" />
                     </Link>
-                    <span className="inline-flex h-7 items-center gap-1 rounded-md border border-cyan-100 bg-white/95 px-2 text-[10px] font-extrabold text-gray-900 shadow-sm sm:text-[11px]">
+                    <span className="hidden h-7 items-center gap-1 rounded-md border border-cyan-100 bg-white/95 px-2 text-[10px] font-extrabold text-gray-900 shadow-sm min-[420px]:inline-flex sm:text-[11px]">
                       <MapPin size={11} className="text-teal-700" aria-hidden="true" />
                       <span className="whitespace-nowrap">
                         Live in <span className="text-pink-600">Noida</span> &{" "}
@@ -383,17 +383,17 @@ export default function HomeComponent() {
                   </div>
                 </div>
 
-                <div className="mt-2 flex justify-center gap-1.5 sm:mt-3 sm:gap-2">
+                <div className="mt-1 flex justify-center gap-1 sm:mt-3 sm:gap-2">
                   {heroSlides.map((slide, index) => (
                     <button
                       key={slide.title}
                       type="button"
                       onClick={() => setCurrentHeroSlide(index)}
                       aria-label={`Show ${slide.badge}`}
-                      className={`h-2 rounded-full shadow-sm transition-all sm:h-2.5 ${
+                      className={`h-1.5 rounded-full shadow-sm transition-all sm:h-2.5 ${
                         index === currentHeroSlide
-                          ? `w-6 sm:w-8 ${slide.dotClass}`
-                          : "w-2 bg-white/70 hover:bg-white sm:w-2.5"
+                          ? `w-5 sm:w-8 ${slide.dotClass}`
+                          : "w-1.5 bg-white/70 hover:bg-white sm:w-2.5"
                       }`}
                     />
                   ))}
@@ -403,7 +403,7 @@ export default function HomeComponent() {
           </motion.div>
 
           <div className="pointer-events-none">
-            <div className="relative h-full min-h-[138px] overflow-hidden rounded-lg border border-pink-100 bg-white shadow-xl shadow-pink-100 sm:min-h-[190px] lg:min-h-[245px]">
+            <div className="relative h-full min-h-[120px] overflow-hidden rounded-lg border border-pink-100 bg-white shadow-xl shadow-pink-100 sm:min-h-[190px] lg:min-h-[245px]">
               <Image
                 src="/Balloon.jpg"
                 alt=""
@@ -414,10 +414,10 @@ export default function HomeComponent() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-pink-950/80 via-pink-700/15 to-white/5" />
               <div className="absolute inset-x-0 bottom-2 text-center sm:bottom-3 xl:bottom-5">
-                <span className="block text-2xl font-black leading-none text-pink-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
+                <span className="block text-xl font-black leading-none text-pink-300 drop-shadow-lg sm:text-3xl xl:text-5xl">
                   B
                 </span>
-                <span className="mt-0.5 block text-[8px] font-extrabold uppercase tracking-wide text-pink-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
+                <span className="mt-0.5 block text-[7px] font-extrabold uppercase tracking-wide text-pink-100 drop-shadow sm:text-[10px] xl:mt-1 xl:text-xs">
                   Balloon
                 </span>
               </div>
