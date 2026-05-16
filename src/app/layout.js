@@ -12,6 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const events = [
+    { title: "New Baby", image: "/Baby_Shower_Carousel.jpg" },
     { title: "Birthday", image: "/birthday.jpg" },
     { title: "Anniversary", image: "/anniversary.jpg" },
     { title: "Marriage", image: "/marriage.jpg" },

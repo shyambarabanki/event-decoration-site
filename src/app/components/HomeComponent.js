@@ -42,6 +42,13 @@ const occasions = [
     copy: "Haldi, engagement, wedding stage styling",
   },
   {
+    title: "New Baby",
+    slug: "new-baby",
+    image: "/Baby_Shower_Carousel.jpg",
+    badge: "New arrival",
+    copy: "Baby welcome, shower, cradle and pastel decor",
+  },
+  {
     title: "Corporate",
     slug: "corporate-party",
     image: "/corporate.jpg",
@@ -444,7 +451,7 @@ export default function HomeComponent() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {occasions.map((occasion, index) => (
             <OccasionTile key={occasion.slug} occasion={occasion} index={index} />
           ))}

@@ -81,6 +81,7 @@ export default function EventDetails() {
   const [activeDrawer, setActiveDrawer] = useState(null);
 
   const isSupportedType = type === "birthday" || type === "anniversary";
+  const showFilters = type === "birthday";
 
   useEffect(() => {
     if (!type || !isSupportedType) {
@@ -126,6 +127,14 @@ export default function EventDetails() {
     };
   }, [activeDrawer]);
 
+  useEffect(() => {
+    setAge("all");
+    setCategory("all");
+    setTheme("all");
+    setGender("all");
+    setActiveDrawer(null);
+  }, [type]);
+
   const availableAges = useMemo(() => {
     const uniqueAges = [...new Set(designs.map((d) => d.age?.trim()).filter(Boolean))];
     return uniqueAges.sort((a, b) => a.localeCompare(b));
@@ -158,6 +167,10 @@ export default function EventDetails() {
   }, [designs, age, category]);
 
   const filteredDesigns = useMemo(() => {
+    if (!showFilters) {
+      return designs;
+    }
+
     return designs.filter((d) => {
       const matchAge = age === "all" || d.age?.toLowerCase() === age.toLowerCase();
       const matchCategory =
@@ -170,10 +183,10 @@ export default function EventDetails() {
 
       return matchAge && matchCategory && matchTheme && matchGender;
     });
-  }, [designs, age, category, theme, gender]);
+  }, [designs, age, category, theme, gender, showFilters]);
 
   const hasActiveFilters =
-    age !== "all" || category !== "all" || theme !== "all" || gender !== "all";
+    showFilters && (age !== "all" || category !== "all" || theme !== "all" || gender !== "all");
 
   const resetFilters = () => {
     setAge("all");
@@ -258,6 +271,9 @@ export default function EventDetails() {
   );
 
   const resultLabel = loading ? "Loading..." : `${filteredDesigns.length} found`;
+  const pageDescription = showFilters
+    ? "Browse ready decor looks and narrow them quickly by age, category, theme, or gender."
+    : "Browse anniversary decor looks and open any design to check area, date, time, and booking details.";
 
   if (!isSupportedType) {
     return (
@@ -299,8 +315,7 @@ export default function EventDetails() {
               {type} decoration designs
             </h3>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              Browse ready decor looks, compare themes, and open any design to check area,
-              date, time, and booking details.
+              {pageDescription}
             </p>
           </div>
 
@@ -319,52 +334,56 @@ export default function EventDetails() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-100 bg-white p-3 shadow-sm">
-            <p className="text-xs font-extrabold uppercase tracking-wide text-gray-500">
-              Current filters
-            </p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {[age, category, theme, gender].map((item, index) => (
-                <span
-                  key={`${item}-${index}`}
-                  className="rounded-md bg-pink-50 px-2.5 py-1 text-xs font-bold capitalize text-pink-700"
-                >
-                  {item === "all" ? "All" : item}
-                </span>
-              ))}
+          {showFilters ? (
+            <div className="rounded-lg border border-gray-100 bg-white p-3 shadow-sm">
+              <p className="text-xs font-extrabold uppercase tracking-wide text-gray-500">
+                Current filters
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[age, category, theme, gender].map((item, index) => (
+                  <span
+                    key={`${item}-${index}`}
+                    className="rounded-md bg-pink-50 px-2.5 py-1 text-xs font-bold capitalize text-pink-700"
+                  >
+                    {item === "all" ? "All" : item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </MobileDrawer>
+
+      {showFilters ? (
+        <MobileDrawer
+          open={activeDrawer === "filters"}
+          side="right"
+          eyebrow="Refine results"
+          title="Filters"
+          onClose={() => setActiveDrawer(null)}
+        >
+          <div className="space-y-4">
+            {renderFilters(true)}
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="h-10 rounded-md border border-gray-200 bg-white text-sm font-bold text-gray-700 transition hover:border-pink-300 hover:text-pink-700"
+              >
+                Clear
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveDrawer(null)}
+                className="h-10 rounded-md bg-[#ff4f9a] text-sm font-extrabold text-white shadow-lg shadow-pink-100 transition hover:bg-pink-600"
+              >
+                Show {loading ? "" : filteredDesigns.length}
+              </button>
             </div>
           </div>
-        </div>
-      </MobileDrawer>
-
-      <MobileDrawer
-        open={activeDrawer === "filters"}
-        side="right"
-        eyebrow="Refine results"
-        title="Filters"
-        onClose={() => setActiveDrawer(null)}
-      >
-        <div className="space-y-4">
-          {renderFilters(true)}
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="h-10 rounded-md border border-gray-200 bg-white text-sm font-bold text-gray-700 transition hover:border-pink-300 hover:text-pink-700"
-            >
-              Clear
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveDrawer(null)}
-              className="h-10 rounded-md bg-[#ff4f9a] text-sm font-extrabold text-white shadow-lg shadow-pink-100 transition hover:bg-pink-600"
-            >
-              Show {loading ? "" : filteredDesigns.length}
-            </button>
-          </div>
-        </div>
-      </MobileDrawer>
+        </MobileDrawer>
+      ) : null}
 
       <div className="mx-auto max-w-[1400px] px-3 py-3 sm:px-4 md:px-6 lg:px-8">
         <div className="mb-3 rounded-lg border border-pink-100 bg-white p-3 shadow-sm sm:hidden">
@@ -384,7 +403,7 @@ export default function EventDetails() {
               </span>
             ) : null}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2">
+          <div className={`mt-3 grid gap-2 ${showFilters ? "grid-cols-2" : "grid-cols-1"}`}>
             <button
               type="button"
               onClick={() => setActiveDrawer("details")}
@@ -393,14 +412,16 @@ export default function EventDetails() {
               <Info size={16} aria-hidden="true" />
               Details
             </button>
-            <button
-              type="button"
-              onClick={() => setActiveDrawer("filters")}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#ff4f9a] text-sm font-extrabold text-white shadow-lg shadow-pink-100 transition hover:bg-pink-600"
-            >
-              <SlidersHorizontal size={16} aria-hidden="true" />
-              Filters
-            </button>
+            {showFilters ? (
+              <button
+                type="button"
+                onClick={() => setActiveDrawer("filters")}
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#ff4f9a] text-sm font-extrabold text-white shadow-lg shadow-pink-100 transition hover:bg-pink-600"
+              >
+                <SlidersHorizontal size={16} aria-hidden="true" />
+                Filters
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -419,8 +440,7 @@ export default function EventDetails() {
                 </span>
               </div>
               <p className="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
-                Browse ready decor looks and narrow them quickly by age, category, theme, or
-                gender.
+                {pageDescription}
               </p>
             </div>
 
@@ -435,9 +455,11 @@ export default function EventDetails() {
             ) : null}
           </div>
 
-          <div className="border-t border-pink-50 bg-pink-50/40 p-2 sm:p-3">
-            {renderFilters(false)}
-          </div>
+          {showFilters ? (
+            <div className="border-t border-pink-50 bg-pink-50/40 p-2 sm:p-3">
+              {renderFilters(false)}
+            </div>
+          ) : null}
         </div>
 
         {loading ? (
