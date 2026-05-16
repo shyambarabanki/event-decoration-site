@@ -1,10 +1,27 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import Navbar from "../../../../components/Navbar";
 import { reportClientError } from "../../components/ErrorReporter";
+
+function FilterSelect({ label, value, onChange, children }) {
+  return (
+    <label className="min-w-[150px] flex-1 sm:min-w-0">
+      <span className="mb-1 block text-[11px] font-extrabold uppercase tracking-wide text-gray-500">
+        {label}
+      </span>
+      <select
+        value={value}
+        onChange={onChange}
+        className="h-9 w-full rounded-md border border-pink-100 bg-white px-3 text-sm font-semibold text-gray-800 shadow-sm outline-none transition focus:border-pink-400 focus:ring-2 focus:ring-pink-100"
+      >
+        {children}
+      </select>
+    </label>
+  );
+}
 
 export default function EventDetails() {
   const params = useParams();
@@ -12,7 +29,6 @@ export default function EventDetails() {
 
   const [designs, setDesigns] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [age, setAge] = useState("all");
   const [category, setCategory] = useState("all");
   const [theme, setTheme] = useState("all");
@@ -90,21 +106,30 @@ export default function EventDetails() {
     });
   }, [designs, age, category, theme, gender]);
 
+  const hasActiveFilters =
+    age !== "all" || category !== "all" || theme !== "all" || gender !== "all";
+
+  const resetFilters = () => {
+    setAge("all");
+    setCategory("all");
+    setTheme("all");
+    setGender("all");
+  };
+
   if (!isSupportedType) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-100 via-white to-purple-100">
-        <Navbar />
-        <div className="pt-24 px-4 flex items-center justify-center">
-          <div className="max-w-2xl w-full text-center rounded-[2rem] bg-white/90 backdrop-blur-xl shadow-xl border border-pink-100 px-6 py-12">
-            <div className="text-5xl mb-4">🎉</div>
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-3">
+        <div className="flex items-center justify-center px-4 py-10">
+          <div className="w-full max-w-2xl rounded-lg border border-pink-100 bg-white/90 px-6 py-10 text-center shadow-xl backdrop-blur-xl">
+            <h1 className="mb-3 text-3xl font-black text-gray-900 md:text-5xl">
               Coming Soon!
             </h1>
-            <p className="text-gray-600 text-base md:text-lg mb-2">
-              Our <span className="capitalize font-semibold">{type || "design"}</span> collection is on its way.
+            <p className="mb-2 text-base text-gray-600 md:text-lg">
+              Our <span className="capitalize font-semibold">{type || "design"}</span>{" "}
+              collection is on its way.
             </p>
-            <p className="text-pink-600 font-semibold">
-              Stay tuned for exciting designs launching soon 🚀
+            <p className="font-semibold text-pink-600">
+              Stay tuned for exciting designs launching soon.
             </p>
           </div>
         </div>
@@ -113,125 +138,139 @@ export default function EventDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50 text-gray-900">
-      <Navbar />
-
-      <div className="pt-20 pb-10 px-4 md:px-8 max-w-[1400px] mx-auto">
-        {/* HEADER */}
-        <div className="mb-5 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
-          <div>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-semibold tracking-wide mb-2">
-              {type.toUpperCase()} COLLECTION
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-cyan-50 text-gray-900">
+      <div className="mx-auto max-w-[1400px] px-3 py-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="mb-3 overflow-hidden rounded-lg border border-pink-100 bg-white shadow-sm">
+          <div className="grid gap-3 p-3 sm:p-4 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="min-w-0">
+              <div className="mb-1 inline-flex items-center rounded-md bg-pink-50 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-pink-700">
+                {type} collection
+              </div>
+              <div className="flex flex-wrap items-end gap-2">
+                <h1 className="text-2xl font-black capitalize leading-tight text-gray-950 sm:text-3xl">
+                  {type} decoration designs
+                </h1>
+                <span className="rounded-md bg-teal-50 px-2 py-1 text-xs font-bold text-teal-700">
+                  {loading ? "Loading..." : `${filteredDesigns.length} found`}
+                </span>
+              </div>
+              <p className="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+                Browse ready decor looks and narrow them quickly by age, category, theme, or
+                gender.
+              </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 leading-tight">
-              {type} Designs
-            </h1>
-            <p className="text-gray-600 mt-1 max-w-2xl text-sm md:text-base">
-              Explore curated decoration concepts and filter by age, category, theme, and gender.
-            </p>
+
+            {hasActiveFilters ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 bg-white px-3 text-sm font-bold text-gray-700 transition hover:border-pink-300 hover:text-pink-700"
+              >
+                Clear filters
+              </button>
+            ) : null}
           </div>
 
-          <div className="text-sm text-gray-500 bg-white border border-gray-200 rounded-2xl px-4 py-2.5 shadow-sm w-fit">
-            {loading ? "Loading..." : `${filteredDesigns.length} design(s) found`}
+          <div className="border-t border-pink-50 bg-pink-50/40 p-2 sm:p-3">
+            <div className="-mx-2 flex gap-2 overflow-x-auto px-2 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
+              <FilterSelect
+                label="Age"
+                value={age}
+                onChange={(e) => {
+                  setAge(e.target.value);
+                  setCategory("all");
+                  setTheme("all");
+                  setGender("all");
+                }}
+              >
+                <option value="all">All Ages</option>
+                {availableAges.map((ag) => (
+                  <option key={ag} value={ag}>
+                    {ag}
+                  </option>
+                ))}
+              </FilterSelect>
+
+              <FilterSelect
+                label="Category"
+                value={category}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                  setTheme("all");
+                  setGender("all");
+                }}
+              >
+                <option value="all">All Categories</option>
+                {availableCategories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </FilterSelect>
+
+              <FilterSelect
+                label="Theme"
+                value={theme}
+                onChange={(e) => {
+                  setTheme(e.target.value);
+                  setGender("all");
+                }}
+              >
+                <option value="all">All Themes</option>
+                {availableThemes.map((th) => (
+                  <option key={th} value={th}>
+                    {th}
+                  </option>
+                ))}
+              </FilterSelect>
+
+              <FilterSelect
+                label="Gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="all">Any Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </FilterSelect>
+            </div>
           </div>
         </div>
 
-        {/* FILTERS */}
-        <div className="mb-6 rounded-[1.5rem] bg-white/90 backdrop-blur-xl border border-pink-100 shadow-lg p-3 md:p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-            <select
-              value={age}
-              onChange={(e) => {
-                setAge(e.target.value);
-                setCategory("all");
-                setTheme("all");
-                setGender("all");
-              }}
-              className="h-11 border border-pink-200 rounded-2xl px-4 bg-pink-50/40 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-            >
-              <option value="all">All Ages</option>
-              {availableAges.map((ag) => (
-                <option key={ag} value={ag}>
-                  {ag}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setTheme("all");
-                setGender("all");
-              }}
-              className="h-11 border border-pink-200 rounded-2xl px-4 bg-pink-50/40 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-            >
-              <option value="all">All Categories</option>
-              {availableCategories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={theme}
-              onChange={(e) => {
-                setTheme(e.target.value);
-                setGender("all");
-              }}
-              className="h-11 border border-pink-200 rounded-2xl px-4 bg-pink-50/40 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-            >
-              <option value="all">All Themes</option>
-              {availableThemes.map((th) => (
-                <option key={th} value={th}>
-                  {th}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              className="h-11 border border-pink-200 rounded-2xl px-4 bg-pink-50/40 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
-            >
-              <option value="all">Any Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-        </div>
-
-        {/* CONTENT */}
         {loading ? (
-          <div className="py-12 text-center text-gray-500 animate-pulse">
+          <div className="rounded-lg border border-pink-100 bg-white py-12 text-center text-gray-500 shadow-sm animate-pulse">
             Loading designs...
           </div>
         ) : filteredDesigns.length === 0 ? (
-          <div className="py-12 text-center">
-            <div className="text-4xl mb-2">🔎</div>
-            <p className="text-gray-600">No designs found for the selected filters.</p>
+          <div className="rounded-lg border border-pink-100 bg-white px-4 py-12 text-center shadow-sm">
+            <p className="font-bold text-gray-900">No designs found</p>
+            <p className="mt-1 text-sm text-gray-600">
+              Try clearing filters or choosing a different theme.
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:gap-4">
             {filteredDesigns.map((d) => (
               <Link
                 key={d.id}
                 href={`/event/${type}/${d.id}`}
-                className="group overflow-hidden rounded-[1.3rem] bg-white shadow-md border border-pink-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="group overflow-hidden rounded-lg border border-pink-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-200 hover:shadow-xl"
               >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={d.image || "/placeholder.png"}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={d.image || "/party.jpg"}
                     alt={d.name || "Design"}
-                    className="w-full h-44 md:h-52 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    unoptimized
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
-                  <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+                  <div className="absolute left-2 right-2 top-2 flex items-start justify-between gap-2">
                     {d.age ? (
-                      <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-semibold text-gray-800 shadow-sm">
+                      <span className="rounded-md bg-white/90 px-2 py-1 text-[10px] font-bold text-gray-800 shadow-sm backdrop-blur-md sm:text-[11px]">
                         {d.age}
                       </span>
                     ) : (
@@ -239,37 +278,37 @@ export default function EventDetails() {
                     )}
 
                     {d.price ? (
-                      <span className="px-2.5 py-1 rounded-full bg-pink-500 text-white text-[11px] font-semibold shadow-sm">
-                        ₹{d.price}
+                      <span className="rounded-md bg-pink-500 px-2 py-1 text-[10px] font-bold text-white shadow-sm sm:text-[11px]">
+                        Rs {d.price}
                       </span>
                     ) : null}
                   </div>
 
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <h3 className="text-white text-base md:text-lg font-bold leading-tight line-clamp-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+                    <h3 className="line-clamp-2 text-sm font-black leading-tight text-white sm:text-base">
                       {d.name}
                     </h3>
-                    <p className="text-white/80 text-xs md:text-sm mt-1 line-clamp-1">
+                    <p className="mt-1 line-clamp-1 text-xs text-white/80">
                       {d.theme || d.category || "Decor Design"}
                     </p>
                   </div>
                 </div>
 
-                <div className="p-3 md:p-4 space-y-2">
-                  <div className="flex flex-wrap gap-1.5">
+                <div className="space-y-2 p-2.5 sm:p-3">
+                  <div className="flex min-h-6 flex-wrap gap-1.5">
                     {d.category ? (
-                      <span className="text-[11px] px-2 py-1 rounded-full bg-purple-50 text-purple-700">
+                      <span className="rounded-md bg-purple-50 px-2 py-1 text-[10px] font-bold text-purple-700 sm:text-[11px]">
                         {d.category}
                       </span>
                     ) : null}
                     {d.gender && d.gender !== "all" ? (
-                      <span className="text-[11px] px-2 py-1 rounded-full bg-pink-50 text-pink-700">
+                      <span className="rounded-md bg-pink-50 px-2 py-1 text-[10px] font-bold text-pink-700 sm:text-[11px]">
                         {d.gender}
                       </span>
                     ) : null}
                   </div>
 
-                  <p className="text-gray-600 text-xs md:text-sm line-clamp-2">
+                  <p className="line-clamp-2 text-xs leading-5 text-gray-600">
                     {d.description ||
                       "A beautiful decoration concept crafted for memorable celebrations."}
                   </p>
